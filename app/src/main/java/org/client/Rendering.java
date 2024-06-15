@@ -1,9 +1,11 @@
 package org.client;
 
+import org.joml.Matrix4f;
 import org.lwjgl.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
+import render.BoxRenderer;
 
 import java.nio.*;
 
@@ -15,6 +17,12 @@ import static org.lwjgl.system.MemoryUtil.*;
 
 public class Rendering {
 
+
+    private Matrix4f projection;
+    private void changeProjection(long window, int width, int height) {
+        projection = new Matrix4f().ortho(0,width, height, 0, 0, 1);
+        glViewport(0,0,width,height);
+    }
     // The window handle
     private long window;
 
@@ -35,7 +43,7 @@ public class Rendering {
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizable
 
         // Create the window
-        window = glfwCreateWindow(1200, 900, "Hello World!", NULL, NULL);
+        window = glfwCreateWindow(1200, 900, "Tic-Tac-Toe", NULL, NULL);
         if ( window == NULL )
             throw new RuntimeException("Failed to create the GLFW window");
 
@@ -82,10 +90,15 @@ public class Rendering {
         // Set the clear color
         glClearColor(1, 1, 1, 1);
 
+        BoxRenderer boxRenderer = new BoxRenderer();
+
+
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
         while ( !glfwWindowShouldClose(window) ) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
+
+            boxRenderer.draw(new );
 
             glfwSwapBuffers(window); // swap the color buffers
 
