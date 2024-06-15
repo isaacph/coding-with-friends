@@ -1,7 +1,7 @@
 package render;
 
+import org.client.FileUtil;
 import org.joml.Vector2ic;
-import util.FileUtil;
 import org.joml.Vector2i;
 import org.lwjgl.stb.STBImage;
 import org.lwjgl.system.MemoryStack;

@@ -7,6 +7,9 @@ import java.io.*;
         import java.net.*;
 
 public class client {
+
+
+
     public static void main(String args[]) throws IOException
     {
         // create a socket to connect to the server running on localhost at port number 9090
