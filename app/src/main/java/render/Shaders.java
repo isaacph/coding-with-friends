@@ -1,6 +1,6 @@
 package render;
 
-import util.FileUtil;
+import org.client.FileUtil;
 import org.lwjgl.BufferUtils;
 
 import java.io.BufferedReader;

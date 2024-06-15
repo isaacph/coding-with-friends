@@ -1,6 +1,6 @@
 package render;
 
-import util.FileUtil;
+import org.client.FileUtil;
 import org.joml.Matrix4f;
 import org.joml.Vector4f;
 import org.lwjgl.stb.*;
