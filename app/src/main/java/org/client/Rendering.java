@@ -101,6 +101,10 @@ public class Rendering {
 
         glfwSetWindowSizeCallback(window, this::changeProjection);
         this.changeProjection(window, 1200,900);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         TextureRenderer boxRenderer = new TextureRenderer();
         Texture x_icon = Texture.makeTexture("x_icon.png");
@@ -110,19 +114,21 @@ public class Rendering {
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
         while ( !glfwWindowShouldClose(window) ) {
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
+            glClear(GL_COLOR_BUFFER_BIT); // clear the framebuffer
 
+            x_icon.bind();
+            boxRenderer.draw(MatrixUtil.box(projection, 100, 100, 100, 100), new Vector4f(1, 1, 1, 1));
 
-        for(int i =0; i < 3 ; i++) {
-            for (int j = 0; j < 3; j++) {
-                if (j != 0) {
-                    boxRenderer.draw(MatrixUtil.box(projection, width / 3 / 2 + 400 * i, 0 + 300 * j, width / 3, 10), new Vector4f(0, 0, 0, 1));//horizontal
-                }
-                if (i != 0) {
-                    boxRenderer.draw(MatrixUtil.box(projection, 0 + 400 * i, height / 3 / 2 + 300 * j, 10, height / 3), new Vector4f(0, 0, 0, 1)); //diagonal
+            for(int i =0; i < 3 ; i++) {
+                for (int j = 0; j < 3; j++) {
+                    if (j != 0) {
+                        boxRenderer.draw(MatrixUtil.box(projection, width / 3 / 2 + 400 * i, 0 + 300 * j, width / 3, 10), new Vector4f(1, 1, 1, 1));//horizontal
+                    }
+                    if (i != 0) {
+                        boxRenderer.draw(MatrixUtil.box(projection, 0 + 400 * i, height / 3 / 2 + 300 * j, 10, height / 3), new Vector4f(0, 0, 0, 1)); //diagonal
+                    }
                 }
             }
-        }
 
 
             glfwSwapBuffers(window); // swap the color buffers
