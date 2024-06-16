@@ -1,11 +1,16 @@
 package org.client;
 
 import org.joml.Matrix4f;
+import org.joml.Vector4f;
 import org.lwjgl.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
 import render.BoxRenderer;
+import render.MatrixUtil;
+import render.Texture;
+import render.TextureRenderer;
+
 
 import java.nio.*;
 
@@ -19,9 +24,13 @@ public class Rendering {
 
 
     private Matrix4f projection;
+    int width;
+    int height;
     private void changeProjection(long window, int width, int height) {
         projection = new Matrix4f().ortho(0,width, height, 0, 0, 1);
         glViewport(0,0,width,height);
+        this.width = width;
+        this.height = height;
     }
     // The window handle
     private long window;
@@ -90,7 +99,12 @@ public class Rendering {
         // Set the clear color
         glClearColor(1, 1, 1, 1);
 
-        BoxRenderer boxRenderer = new BoxRenderer();
+        glfwSetWindowSizeCallback(window, this::changeProjection);
+        this.changeProjection(window, 1200,900);
+
+        TextureRenderer boxRenderer = new TextureRenderer();
+        Texture x_icon = Texture.makeTexture("x_icon.png");
+        x_icon.bind();
 
 
         // Run the rendering loop until the user has attempted to close
@@ -98,7 +112,18 @@ public class Rendering {
         while ( !glfwWindowShouldClose(window) ) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
-            boxRenderer.draw(new );
+
+        for(int i =0; i < 3 ; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (j != 0) {
+                    boxRenderer.draw(MatrixUtil.box(projection, width / 3 / 2 + 400 * i, 0 + 300 * j, width / 3, 10), new Vector4f(0, 0, 0, 1));//horizontal
+                }
+                if (i != 0) {
+                    boxRenderer.draw(MatrixUtil.box(projection, 0 + 400 * i, height / 3 / 2 + 300 * j, 10, height / 3), new Vector4f(0, 0, 0, 1)); //diagonal
+                }
+            }
+        }
+
 
             glfwSwapBuffers(window); // swap the color buffers
 
